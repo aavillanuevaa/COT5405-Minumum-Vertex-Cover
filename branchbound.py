@@ -8,9 +8,7 @@ Type      : Exact solution (always finds the true minimum vertex cover)
 Based on the approach described in:
   https://www.mdpi.com/2227-7390/7/7/603
 """
-
 from graphs import get_edges
-
 
 def branchbound(graph, n):
     edges = get_edges(graph)

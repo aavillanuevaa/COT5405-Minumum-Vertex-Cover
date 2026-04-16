@@ -1,6 +1,4 @@
 """
-greedy.py
----------
 2-Approximation algorithm for Minimum Vertex Cover.
 
 Technique : Greedy Approximation
@@ -17,9 +15,7 @@ Algorithm:
        c. Remove all edges incident to u or v
   2. Return the cover
 """
-
 from graphs import graph_copy
-
 
 def greedy_vertex_cover(graph):
     # work on a copy so the original graph is not modified
@@ -46,8 +42,6 @@ def greedy_vertex_cover(graph):
 
     return cover
 
-# --- helpers ---------------------------------------------------- #
-
 def pick_edge(graph):
     # scan adjacency list and return the first edge found
     # returns None if no edges remain
@@ -56,7 +50,6 @@ def pick_edge(graph):
             v = next(iter(graph[u]))
             return (u, v)
     return None
-
 
 def remove_vertex(vertex, graph):
     # remove all edges incident to vertex
