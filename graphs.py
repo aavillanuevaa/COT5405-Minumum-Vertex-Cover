@@ -4,7 +4,7 @@ Used by both algorithm modules and experiments.py.
 """
 import random
 
-def generate_random_graph(n, p, seed=None):  
+def generateRandomGraph(n, p, seed=None):  
     if seed is not None:
         random.seed(seed)
 
@@ -22,12 +22,12 @@ def generate_random_graph(n, p, seed=None):
     return graph, edges
 
 
-def graph_copy(graph):
-    # return a deep copy of an adjacency-list graph
+def copyGraph(graph):
+    # return a copy of graph
     return {v: set(neighbors) for v, neighbors in graph.items()}
 
-def get_edges(graph):
-    # extract all edges from an adjacency list
+def getEdges(graph):
+    # extract all edges 
     edges = []
     for u in graph:
         for v in graph[u]:
@@ -35,8 +35,8 @@ def get_edges(graph):
                 edges.append((u, v))
     return edges
 
-def verify_vertex_cover(cover, edges):
-    # check that every edge has at least one endpoint in the cover
+def verifyVertexCover(cover, edges):
+    # check every edge has at least one endpoint in cover
     for u, v in edges:
         if u not in cover and v not in cover:
             return False
