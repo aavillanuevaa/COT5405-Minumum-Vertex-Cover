@@ -22,15 +22,15 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 
 NUM_TRIALS = 7
 TIMEOUT_S  = 30.0
-BB_COLOR     = "#e05c5c"
+BB_COLOR = "#e05c5c"
 GREEDY_COLOR = "#4a90d9"
 RATIO_COLOR  = "#2ca02c"
 
 plt.rcParams.update({
-    "font.family"      : "monospace",
-    "axes.spines.top"  : False,
+    "font.family": "monospace",
+    "axes.spines.top": False,
     "axes.spines.right": False,
-    "figure.dpi"       : 150,
+    "figure.dpi": 150,
 })
 
 def measureRT(algorithm, graph, n=None):
@@ -76,9 +76,9 @@ def experiment1():
     for n in greedy_sizes:
         t = avgRT(greedy, n, p, NUM_TRIALS)
         greedy_times.append(t)
-        print(f" greedy n={n:5d} avg={t:10.3f} ms")
+        print(f"greedy n={n:5d}  avg={t:10.3f} ms")
 
-    ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5))
 
     ax.set_title("Experiment 1 — Runtime vs Number of Vertices (p = 0.20)", fontweight="bold")
     ax.set_xlabel("Number of vertices (n)")
@@ -111,9 +111,9 @@ def experiment2():
         gdTime = avgRT(greedy, n, p, NUM_TRIALS)
         bb_times.append(bbTime if bbTime else float("nan"))
         greedy_times.append(gdTime)
-        print(f"  p={p:.1f}  bb={bbTime:9.3f} ms   greedy={gdTime:8.3f} ms")
+        print(f"p={p:.1f} bb={bbTime:9.3f} ms   greedy={gdTime:8.3f} ms")
 
-    ax = plt.subplots(figsize=(8, 5))
+    fig, ax = plt.subplots(figsize=(8, 5))
 
     ax.set_title(f"Experiment 2 — Runtime vs Graph Density (n = {n})", fontweight="bold")
     ax.set_xlabel("Edge probability p (graph density)")
@@ -129,12 +129,12 @@ def experiment2():
     plt.savefig(os.path.join(RESULTS_DIR, "exp2_runtime_vs_density.png"), bbox_inches="tight")
     plt.close()
 
-    print(f"  [Saved] exp2_runtime_vs_density.png")
+    print(f"[Saved] exp2_runtime_vs_density.png")
 
 
 def experiment3():
     print("\n" + "="*60)
-    print("Experiment 3: Approximation Quality  (p = 0.3)")
+    print("Experiment 3: Approximation Quality   (p = 0.3)")
     print("="*60)
 
     p, TRIALS = 0.3, 10
@@ -145,7 +145,7 @@ def experiment3():
         bbSize, gdSize, trialRatios = [], [], []
         for seed in range(TRIALS):
             graph, edges = generateRandomGraph(n, p, seed=seed * 17 + n)
-            bb_cover     = branchbound(graph, n)
+            bb_cover = branchbound(graph, n)
             greedy_cover = greedy(graph)
 
             assert verifyVertexCover(bb_cover, edges)
@@ -161,7 +161,7 @@ def experiment3():
         gdAvgs.append(statistics.mean(gdSize))
         ratios.append(statistics.mean(trialRatios) if trialRatios else 1.0)
 
-        print(f"  n={n:3d}  OPT={bbAvgs[-1]:5.2f}  Greedy={gdAvgs[-1]:5.2f}  Ratio={ratios[-1]:.4f}")
+        print(f"n={n:3d}  OPT={bbAvgs[-1]:5.2f}    Greedy={gdAvgs[-1]:5.2f}    Ratio={ratios[-1]:.4f}")
 
     fig, axes = plt.subplots(1, 2, figsize=(13, 5))
     fig.suptitle("Experiment 3 — Approximation Quality (p = 0.30)", fontsize=13, fontweight="bold")
@@ -170,7 +170,7 @@ def experiment3():
     axes[0].set_xlabel("Number of vertices (n)")
     axes[0].set_ylabel("Average vertex cover size")
 
-    axes[0].plot(sizes, bbAvgs,     "o-",  color=BB_COLOR,     linewidth=2, markersize=6, label="bb (optimal)")
+    axes[0].plot(sizes, bbAvgs, "o-", color=BB_COLOR, linewidth=2, markersize=6, label="bb (optimal)")
     axes[0].plot(sizes, gdAvgs, "s--", color=GREEDY_COLOR, linewidth=2, markersize=6, label="greedy (approx)")
     axes[0].legend()
 
@@ -179,9 +179,9 @@ def experiment3():
     axes[1].set_ylabel("Approximation ratio (greedy / optimal)")
 
     axes[1].plot(sizes, ratios, "D-", color=RATIO_COLOR, linewidth=2, markersize=6, label="Empirical ratio")
-    axes[1].axhline(y=2.0, color="gray",  linestyle="--", linewidth=1.5, label="Theoretical bound (2x)")
-    axes[1].axhline(y=1.0, color="black", linestyle=":",  linewidth=1,   label="Optimal (1x)")
-    
+    axes[1].axhline(y=2.0, color="gray", linestyle="--", linewidth=1.5, label="Theoretical bound (2x)")
+    axes[1].axhline(y=1.0, color="black", linestyle=":", linewidth=1, label="Optimal (1x)")
+
     axes[1].set_ylim(0.8, 2.3)
     axes[1].legend()
 
